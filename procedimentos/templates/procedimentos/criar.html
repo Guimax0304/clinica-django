@@ -1,0 +1,30 @@
+<!--procedimentos/templates/procedimentos/criar.html-->
+
+{% extends 'base.html' %}
+
+{% block title %}Criar Procedimento{% endblock %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4" style="color: #6a11cb;">Cadastrar Procedimento</h1>
+    <div class="card p-4 shadow" style="border-radius: 10px; border: none;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'procedimentos:listar_procedimentos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

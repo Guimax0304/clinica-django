@@ -1,0 +1,87 @@
+<!--template/base.html-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Projeto{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            background-color: #ced4da; /* Cinza com mesma tonalidade do botão "Today" */
+            color: #343a40; /* Texto escuro */
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+            width: 250px;
+        }
+        .sidebar a {
+            color: #343a40;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        .sidebar a:hover {
+            background-color: #adb5bd; /* Cinza mais escuro no hover */
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #6a11cb; /* Texto da navbar permanece roxo */
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="text-center">
+        <h3>Meu Projeto</h3>
+        <small>Gerenciamento</small>
+    </div>
+    <hr>
+    <a href="{% url 'usuarios:home' %}"><i class="fas fa-home"></i> Home</a>
+    <a href="{% url 'agendamentos:listar_agendamentos' %}"><i class="fas fa-calendar-alt"></i> Agendamentos</a>
+    <a href="{% url 'pacientes:listar_pacientes' %}"><i class="fas fa-user"></i> Pacientes</a>
+    <a href="{% url 'profissionais:listar_profissionais' %}"><i class="fas fa-user-md"></i> Profissionais</a>
+    <a href="{% url 'procedimentos:listar_procedimentos' %}"><i class="fas fa-notes-medical"></i> Procedimentos</a>
+    <a href="{% url 'salas:listar_salas' %}"><i class="fas fa-door-closed"></i> Salas
+    <a href="{% url 'usuarios:logout' %}" class="text-danger"><i class="fas fa-sign-out-alt"></i> Sair</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'usuarios:home' %}">Meu Projeto</a>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        {% block page_content %}
+        <p>Bem-vindo à plataforma!</p>
+        {% endblock %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

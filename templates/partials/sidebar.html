@@ -1,0 +1,29 @@
+<!-- templates/partials/sidebar.html -->
+
+<nav id="sidebar" class="bg-dark text-white">
+    <div class="sidebar-header text-center py-4">
+        <h3>Safe Beauty</h3>
+        <small class="text-muted">Gerenciamento</small>
+    </div>
+
+    <ul class="list-unstyled components">
+        <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <a href="{% url 'usuarios:home' %}"><i class="fas fa-home"></i> Home</a>
+        </li>
+
+        <li>
+            <a href="#agendamentosSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fas fa-calendar-alt"></i> Agendamentos
+            </a>
+            <ul class="collapse list-unstyled" id="agendamentosSubmenu">
+                <li>
+                    <a href="{% url 'agendamentos:criar_agendamento' %}">Criar Agendamento</a>
+                </li>
+                <li>
+                    <a href="{% url 'agendamentos:listar_agendamentos' %}">Listar Agendamentos</a>
+                </li>
+            </ul>
+        </li>
+        <!-- Adicionei classes condicionalmente ativas para cada seção -->
+    </ul>
+</nav>

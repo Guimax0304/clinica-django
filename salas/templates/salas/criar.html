@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Criar Sala{% endblock %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4" style="color: #6a11cb;">Cadastrar Sala</h1>
+    <div class="card p-4 shadow" style="border-radius: 10px;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{% url 'salas:listar_salas' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

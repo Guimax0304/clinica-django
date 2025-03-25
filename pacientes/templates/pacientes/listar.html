@@ -1,0 +1,57 @@
+<!--paciente/templates/pacientes/listar.html-->
+
+{% extends 'base.html' %}
+
+{% block title %}Lista de Pacientes{% endblock %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4" style="color: #6a11cb;">Lista de Pacientes</h1>
+
+    <!-- Botão para criar paciente alinhado à direita -->
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{% url 'pacientes:criar_paciente' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Criar Paciente
+        </a>
+    </div>
+
+    <!-- Tabela de pacientes -->
+    <div class="card p-4 shadow" style="border-radius: 10px; border: none;">
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Data de Nascimento</th>
+                    <th>Endereço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.id }}</td>
+                    <td>{{ paciente.nome }}</td>
+                    <td>{{ paciente.telefone|default:"-" }}</td>
+                    <td>{{ paciente.data_nascimento|date:"d/m/Y" }}</td>
+                    <td>{{ paciente.endereco|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'pacientes:editar_paciente' paciente.id %}" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{% url 'pacientes:deletar_paciente' paciente.id %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt"></i> Deletar
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum paciente encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

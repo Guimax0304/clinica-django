@@ -1,0 +1,64 @@
+<!--templates/partials/footer.html-->
+
+<footer class="footer bg-light text-dark py-4">
+    <div class="container">
+      <div class="row">
+        <!-- Seção Sobre -->
+        <div class="col-md-4 mb-3">
+          <h5 class="text-primary">Sobre</h5>
+          <p>Meu Projeto é uma plataforma dedicada ao gerenciamento eficiente de agendamentos e serviços.</p>
+        </div>
+  
+        <!-- Links Úteis -->
+        <div class="col-md-4 mb-3">
+          <h5 class="text-primary">Links Úteis</h5>
+          <ul class="list-unstyled">
+            <li><a href="{% url 'usuarios:home' %}" class="text-dark text-decoration-none">Página Inicial</a></li>
+            <li><a href="{% url 'agendamentos:listar_agendamentos' %}" class="text-dark text-decoration-none">Agendamentos</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Política de Privacidade</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">Termos de Serviço</a></li>
+          </ul>
+        </div>
+  
+        <!-- Contato -->
+        <div class="col-md-4 mb-3">
+          <h5 class="text-primary">Contato</h5>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-envelope"></i> <a href="mailto:contato@meuprojeto.com" class="text-dark text-decoration-none">contato@meuprojeto.com</a></li>
+            <li><i class="fas fa-phone"></i> +55 (11) 98765-4321</li>
+            <li><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</li>
+          </ul>
+        </div>
+      </div>
+  
+      <hr class="my-3">
+  
+      <!-- Copyright e Redes Sociais -->
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">&copy; <script>document.write(new Date().getFullYear())</script> Meu Projeto. Todos os direitos reservados.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="https://facebook.com" class="text-dark me-3" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://twitter.com" class="text-dark me-3" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" class="text-dark" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Estilo Inline Adicional para Footer -->
+  <style>
+    .footer h5 {
+      font-weight: bold;
+    }
+  
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  
+    .footer i {
+      margin-right: 8px;
+    }
+  </style>
+  

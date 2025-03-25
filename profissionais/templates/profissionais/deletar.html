@@ -1,0 +1,70 @@
+<!--profissionais/templates/profissionais/deletar.html-->
+
+{% extends 'base.html' %}
+{% block title %}Deletar Profissional{% endblock %}
+
+{% block extra_head %}
+<style>
+  .delete-container {
+      max-width: 600px;
+      margin: 50px auto;
+  }
+  .delete-title {
+      color: #dc3545;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 25px;
+  }
+  .delete-alert {
+      font-size: 1rem;
+      text-align: center;
+  }
+  .delete-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+  }
+  .btn-confirm {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: #fff;
+  }
+  .btn-confirm:hover {
+      background-color: #b82a3b;
+      border-color: #b82a3b;
+  }
+  .btn-cancel {
+      background-color: #6c757d;
+      border-color: #6c757d;
+      color: #fff;
+  }
+  .btn-cancel:hover {
+      background-color: #545b62;
+      border-color: #4e555b;
+  }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="delete-container">
+  <h2 class="delete-title">Deletar Profissional</h2>
+  
+  <div class="alert alert-warning delete-alert" role="alert">
+    <p>Tem certeza de que deseja excluir o profissional <strong>{{ profissional.nome }}</strong>?</p>
+    <p>Essa ação é irreversível.</p>
+  </div>
+  
+  <form method="post">
+    {% csrf_token %}
+    <div class="delete-actions">
+      <button type="submit" class="btn btn-confirm">
+        <i class="fas fa-trash-alt"></i> Confirmar Exclusão
+      </button>
+      <a href="{% url 'profissionais:listar_profissionais' %}" class="btn btn-cancel">
+        <i class="fas fa-times"></i> Cancelar
+      </a>
+    </div>
+  </form>
+</div>
+{% endblock %}

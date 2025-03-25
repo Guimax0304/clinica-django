@@ -1,0 +1,67 @@
+<!--profissionais/templates/profissionais/editar.html-->
+
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Editar Profissional{% endblock %}
+
+{% block extra_head %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: auto;
+    }
+    .form-container h2 {
+        color: #6a11cb;
+        font-weight: bold;
+    }
+    .form-container .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-container .btn-primary {
+        background-color: #6a11cb;
+        border: none;
+    }
+    .form-container .btn-primary:hover {
+        background-color: #5318b8;
+    }
+    .form-container .btn-secondary:hover {
+        background-color: #6c757d;
+    }
+    .text-danger {
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="color: #6a11cb;">Editar Profissional</h2>
+    <div class="card p-4 shadow" style="border-radius: 10px; border: none;">
+        <form method="post" novalidate>
+            {% csrf_token %}
+            
+            <!-- Debug temporário para verificar se o valor da data está sendo carregado -->
+            <p>Data de Contratação (DEBUG): {{ form.data_contratacao.value }}</p>
+
+            {% for field in form %}
+            <div class="form-group mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field|add_class:"form-control" }}
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a href="{% url 'profissionais:listar_profissionais' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

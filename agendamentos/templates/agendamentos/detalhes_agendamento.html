@@ -1,0 +1,80 @@
+<!-- agendamentos/templates/agendamentos/detalhes_agendamento.html -->
+
+{% extends 'base.html' %}
+{% block title %}Detalhes do Agendamento{% endblock %}
+
+{% block extra_head %}
+<style>
+    .details-container {
+        max-width: 700px;
+        margin: auto;
+    }
+    .details-container h2 {
+        color: #6a11cb;
+        font-weight: bold;
+    }
+    .details-table {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .details-table th {
+        width: 30%;
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+    .details-table td {
+        vertical-align: middle;
+    }
+    .btn-primary {
+        background-color: #6a11cb;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #5318b8;
+    }
+    .btn-secondary:hover {
+        background-color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5 details-container">
+    <h2 class="text-center mb-4">Detalhes do Agendamento</h2>
+    <table class="table table-bordered details-table">
+        <tr>
+            <th>Paciente</th>
+            <td>{{ agendamento.paciente.nome }}</td>
+        </tr>
+        <tr>
+            <th>Profissional</th>
+            <td>{{ agendamento.profissional.nome }}</td>
+        </tr>
+        <tr>
+            <th>Procedimento</th>
+            <td>{{ agendamento.procedimento.nome if agendamento.procedimento else 'Não especificado' }}</td>
+        </tr>
+        <tr>
+            <th>Data de Início</th>
+            <td>{{ agendamento.data_inicio|date:"d/m/Y H:i" }}</td>
+        </tr>
+        <tr>
+            <th>Data de Término</th>
+            <td>{{ agendamento.data_fim|date:"d/m/Y H:i" if agendamento.data_fim else 'Não especificado' }}</td>
+        </tr>
+        <tr>
+            <th>Sala</th>
+            <td>{{ agendamento.sala.numero if agendamento.sala else 'Não especificado' }}</td>
+        </tr>
+        <tr>
+            <th>Descrição</th>
+            <td>{{ agendamento.descricao|default:'Nenhuma descrição fornecida.' }}</td>
+        </tr>
+    </table>
+    <div class="text-center mt-4">
+        <a href="{% url 'agendamentos:editar_agendamento' agendamento.id %}" class="btn btn-primary">Editar</a>
+        <a href="{% url 'agendamentos:listar_agendamentos' %}" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Cadastro{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Excluir Cadastro</h1>
+  <p>Tem certeza de que deseja excluir o cadastro <strong>{{ cadastro.nome }}</strong>?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sim, excluir</button>
+    <a href="{% url 'cadastros:listar_cadastros' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

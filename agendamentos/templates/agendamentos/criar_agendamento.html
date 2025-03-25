@@ -1,0 +1,74 @@
+<!-- agendamentos/templates/agendamentos/criar_agendamento.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Criar Agendamento{% endblock %}
+
+{% block extra_head %}
+<style>
+    .form-container {
+        max-width: 700px;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-container h1 {
+        color: #6a11cb;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+    .btn-primary {
+        background-color: #6a11cb;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #5318b8;
+    }
+    .btn-secondary:hover {
+        background-color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <div class="form-container">
+        <h1 class="text-center">Cadastrar Agendamento</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                <small class="text-danger">{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <a href="{% url 'agendamentos:listar_agendamentos' %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Adicione scripts adicionais aqui, se necessário
+</script>
+{% endblock %}

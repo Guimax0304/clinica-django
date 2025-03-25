@@ -1,0 +1,178 @@
+<!-- home/templates/home/home.html -->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Painel de Controle Avançado{% endblock %}
+
+{% block page_content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4" style="color: #6a11cb;">Painel de Controle</h1>
+
+    <!-- Resumo dos Dados -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-body">
+                    <h3>{{ total_agendamentos }}</h3>
+                    <p>Agendamentos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-success text-white">
+                <div class="card-body">
+                    <h3>{{ total_pacientes }}</h3>
+                    <p>Pacientes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-info text-white">
+                <div class="card-body">
+                    <h3>{{ total_profissionais }}</h3>
+                    <p>Profissionais</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Próximos Agendamentos -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4 class="text-center">Próximos Agendamentos</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Profissional</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agendamento in proximos_agendamentos %}
+                    <tr>
+                        <td>{{ agendamento.paciente.nome }}</td>
+                        <td>{{ agendamento.profissional.nome }}</td>
+                        <td>{{ agendamento.data_inicio|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">Nenhum agendamento futuro encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Botões de Acesso Rápido -->
+    <div class="d-flex justify-content-around mt-4">
+        <a href="{% url 'agendamentos:criar_agendamento' %}" class="btn btn-primary" aria-label="Criar Agendamento">
+            Criar Agendamento
+        </a>
+        <a href="{% url 'pacientes:listar_pacientes' %}" class="btn btn-success" aria-label="Listar Pacientes">
+            Listar Pacientes
+        </a>
+        <a href="{% url 'profissionais:listar_profissionais' %}" class="btn btn-info" aria-label="Listar Profissionais">
+            Listar Profissionais
+        </a>
+    </div>
+
+    <!-- Gráfico de Agendamentos por Mês (Avançado) -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4 class="card-title text-center">Agendamentos por Mês</h4>
+            <canvas id="grafico-avancado"></canvas>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Biblioteca Chart.js (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Plugin opcional Chart.js DataLabels (para exibir valores nas barras) -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('grafico-avancado').getContext('2d');
+
+        // "agendamentos_por_mes" vem do contexto do Django
+        // Ex.: [{"mes": "Março", "total": 2}, {"mes": "Abril", "total": 1}, ...]
+        const dados = {{ agendamentos_por_mes|safe }};
+
+        const labels = dados.map(item => item.mes);
+        const valores = dados.map(item => item.total);
+
+        // Criação de gradient (de cima para baixo)
+        const gradientBar = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientBar.addColorStop(0, 'rgba(54, 162, 235, 0.6)');
+        gradientBar.addColorStop(1, 'rgba(54, 162, 235, 0)');
+
+        // Cria o gráfico
+        const meuChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Agendamentos',
+                    data: valores,
+                    backgroundColor: gradientBar,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Agendamentos por Mês (Avançado)'
+                    },
+                    tooltip: {
+                        enabled: true
+                    },
+                    legend: {
+                        display: true
+                    },
+                    // DataLabels: Exibe valores nas barras
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#333',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Quantidade'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
+                    }
+                },
+                // Animação
+                animation: {
+                    duration: 1500,
+                    easing: 'easeInOutBounce'
+                }
+            },
+            // Registra o plugin (se quiser exibir datalabels)
+            plugins: [ChartDataLabels]
+        });
+    });
+</script>
+{% endblock %}

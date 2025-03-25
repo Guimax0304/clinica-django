@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Listar Cadastros{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Lista de Cadastros</h1>
+  {% if cadastros %}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Data de Criação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cadastro in cadastros %}
+        <tr>
+          <td>{{ cadastro.id }}</td>
+          <td>{{ cadastro.nome }}</td>
+          <td>{{ cadastro.criado_em|date:"d/m/Y H:i" }}</td>
+          <td>
+            <a href="{% url 'cadastros:editar_cadastro' cadastro.id %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'cadastros:deletar_cadastro' cadastro.id %}" class="btn btn-sm btn-danger">Excluir</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">Nenhum cadastro encontrado.</div>
+  {% endif %}
+</div>
+{% endblock %}
