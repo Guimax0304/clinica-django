@@ -1,0 +1,5 @@
+Django==4.2
+gunicorn==20.1.0
+psycopg2==2.9.3  # se usar PostgreSQL
+whitenoise==6.4.0  # se quiser servir staticfiles via WhiteNoise
+django-environ==0.9.0  # se for usar variáveis de ambiente
