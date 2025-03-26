@@ -85,11 +85,11 @@ WSGI_APPLICATION = "meu_projeto.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'nome_de_banco', # Nome do banco de dados
-        'USER': 'postgres',        # Usuário do banco
-        'PASSWORD': '#Guimax0202',      # Senha do usuário
-        'HOST': 'localhost',   # Ou o IP do servidor de banco
-        'PORT': '5432',   # Porta padrão do PostgreSQL
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 

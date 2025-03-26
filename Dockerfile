@@ -30,4 +30,5 @@ COPY . /app
 EXPOSE 8000
 
 # Ajuste "meu_projeto.wsgi" para o nome real do wsgi do seu projeto
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "meu_projeto.wsgi"]
+CMD ["bash", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 meu_projeto.wsgi"]
+
