@@ -1,34 +1,26 @@
-# Usa a imagem base do Python (versão 3.10-slim)
+# Usa Python 3.10 slim como base
 FROM python:3.10-slim
 
-# Define o diretório de trabalho
+# Define o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Instala bibliotecas de sistema necessárias.
-# Ajuste conforme precisar (ex.: mysqlclient -> libmysqlclient-dev, etc.)
+# Instala bibliotecas de sistema necessárias
+# (libpq-dev e gcc para psycopg2, libssl-dev e libffi-dev se precisar de cryptography, etc.)
+# Se também usar Pillow, pode adicionar libjpeg-dev, zlib1g-dev
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    gcc \
-    libjpeg-dev \
-    zlib1g-dev \
-    libssl-dev \
-    libffi-dev
+    libpq-dev gcc \
+    libssl-dev libffi-dev \
+    libjpeg-dev zlib1g-dev
 
-# Copia o arquivo requirements.txt para dentro do contêiner
+# Copia o requirements.txt e instala as dependências
 COPY requirements.txt .
-
-# Instala as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia todo o restante do seu código (Django)
+# Copia o restante do código (Django)
 COPY . /app
 
-# (Opcional) Se você quiser fazer collectstatic
-# RUN python manage.py collectstatic --noinput
-
-# Expõe a porta 8000
+# Expondo a porta 8000, onde o Gunicorn vai rodar
 EXPOSE 8000
 
-# Ajuste "meu_projeto.wsgi" para o nome real do wsgi do seu projeto
+# Rodar as migrações antes de iniciar o Gunicorn
 CMD ["bash", "-c", "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 meu_projeto.wsgi"]
-
