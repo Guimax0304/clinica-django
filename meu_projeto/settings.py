@@ -16,7 +16,12 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='chave-fallback-insegura')
 # Debug
 DEBUG = True  # Defina como False em produção
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'clinica-django-056n.onrender.com',
+]
+
 
 # Aplicativos instalados
 INSTALLED_APPS = [
