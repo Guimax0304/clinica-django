@@ -1,13 +1,11 @@
-# Usa uma imagem base Python enxuta
+# Usa a imagem base do Python (versão 3.10-slim)
 FROM python:3.10-slim
 
-# Define o diretório de trabalho dentro do contêiner
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Instala bibliotecas de sistema que muitos pacotes Python precisam para compilar:
-#  - libpq-dev, gcc -> compilar psycopg2 (PostgreSQL)
-#  - libjpeg-dev, zlib1g-dev -> Pillow (manipulação de imagens)
-#  - libssl-dev, libffi-dev -> cryptography, etc.
+# Instala bibliotecas de sistema necessárias.
+# Ajuste conforme precisar (ex.: mysqlclient -> libmysqlclient-dev, etc.)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     gcc \
@@ -16,19 +14,20 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libffi-dev
 
-# Copia o arquivo requirements.txt para dentro do contêiner e instala as dependências Python
+# Copia o arquivo requirements.txt para dentro do contêiner
 COPY requirements.txt .
+
+# Instala as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o restante do seu projeto (código Django) para dentro do contêiner
+# Copia todo o restante do seu código (Django)
 COPY . /app
 
-# (Opcional) Se você servir arquivos estáticos localmente, pode rodar collectstatic aqui:
+# (Opcional) Se você quiser fazer collectstatic
 # RUN python manage.py collectstatic --noinput
 
-# Expondo a porta 8000 (onde o Gunicorn/Django vai rodar)
+# Expõe a porta 8000
 EXPOSE 8000
 
-# Comando para iniciar seu servidor Django.
-# Ajuste "meu_projeto.wsgi" para o nome real do seu arquivo WSGI
+# Ajuste "meu_projeto.wsgi" para o nome real do wsgi do seu projeto
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "meu_projeto.wsgi"]
