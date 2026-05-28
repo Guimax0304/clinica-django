@@ -6,9 +6,6 @@ from pacientes.models import Paciente
 from profissionais.models import Profissional
 from procedimentos.models import Procedimento
 from django.utils import timezone
-
-from django import forms
-from .models import Agendamento
 from django.utils.timezone import localtime
 
 class AgendamentoForm(forms.ModelForm):
